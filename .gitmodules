@@ -1,0 +1,4 @@
+[submodule "NigoziEngine"]
+	path = NigoziEngine
+	url = https://www.github.com/LukaLominadze/NigoziEngine
+	branch = dev
