@@ -19,6 +19,7 @@ void SnakeLayer::OnEvent(Nigozi::Event& event)
 {
 	Nigozi::EventDispatcher dispatcher = Nigozi::EventDispatcher(event);
 	dispatcher.Dispatch<Nigozi::WindowResizedEvent>(std::bind(&SnakeLayer::OnWindowResized, this, std::placeholders::_1));
+	dispatcher.Dispatch<Nigozi::KeyPressedEvent>(std::bind(&SnakeLayer::OnKeyPressed, this, std::placeholders::_1));
 	m_sceneManager.OnEvent(event);
 }
 
@@ -44,5 +45,13 @@ bool SnakeLayer::OnWindowResized(Nigozi::WindowResizedEvent& event)
 	float height = event.GetHeight();
 	float aspectRatio = width / height;
 	m_camera.SetProjection(-aspectRatio * m_zoom, aspectRatio * m_zoom, -m_zoom, m_zoom);
+	return false;
+}
+
+bool SnakeLayer::OnKeyPressed(Nigozi::KeyPressedEvent& event)
+{
+	if (event.GetKeyCode() == GLFW_KEY_F11) {
+		Nigozi::Window::SetGlobalFullscreen(!Nigozi::Window::IsGlobalFullscreen());
+	}
 	return false;
 }

@@ -15,6 +15,7 @@ public:
 	virtual void OnImGuiRender() override;
 private:
 	bool OnWindowResized(Nigozi::WindowResizedEvent& event);
+	bool OnKeyPressed(Nigozi::KeyPressedEvent& event);
 private:
 	float m_zoom = 8.0f;
 	Nigozi::OrthographicCamera m_camera;
