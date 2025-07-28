@@ -9,9 +9,9 @@ SnakeLayer::SnakeLayer()
 
 void SnakeLayer::OnAttach()
 {
-	m_sceneManager = Nigozi::SceneManager("Sample", []() { return std::make_shared<SampleScene>(); });
+	m_sceneManager = Nigozi::SceneManager("Sample", [this]() { return std::make_shared<SampleScene>(&m_sceneManager); });
 	m_sceneManager.OnAttach();
-	m_sceneManager.AddSceneToMap("MainMenu", []() { return std::make_shared<MainMenuScene>(); });
+	m_sceneManager.AddSceneToMap("MainMenu", [this]() { return std::make_shared<MainMenuScene>(&m_sceneManager); });
 	m_sceneManager.LoadScene("Sample");
 }
 

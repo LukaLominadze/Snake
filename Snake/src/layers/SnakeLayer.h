@@ -16,7 +16,7 @@ public:
 private:
 	bool OnWindowResized(Nigozi::WindowResizedEvent& event);
 private:
-	float m_zoom = 16.0f;
+	float m_zoom = 8.0f;
 	Nigozi::OrthographicCamera m_camera;
 	Nigozi::SceneManager m_sceneManager;
 };

@@ -5,7 +5,7 @@
 class MainMenuScene : public Nigozi::Scene
 {
 public:
-	MainMenuScene();
+	MainMenuScene(Nigozi::SceneManager* sceneManager);
 	~MainMenuScene();
 };
 

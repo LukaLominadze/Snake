@@ -5,6 +5,6 @@
 class SampleScene : public Nigozi::Scene
 {
 public:
-	SampleScene();
+	SampleScene(Nigozi::SceneManager* sceneManager);
 	~SampleScene();
 };

@@ -6,8 +6,8 @@ FoodScript::FoodScript(Nigozi::Entity entity)
 {
 	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
 	std::random_device rd;
-	std::uniform_int_distribution<int> distX(-16, 16);
-	std::uniform_int_distribution<int> distY(-16, 16);
+	std::uniform_int_distribution<int> distX(-4, 4);
+	std::uniform_int_distribution<int> distY(-4, 4);
 	transform.Position.x = distX(rd);
 	transform.Position.y = distY(rd);
 

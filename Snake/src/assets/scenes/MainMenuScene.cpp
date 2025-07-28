@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 
-MainMenuScene::MainMenuScene()
+MainMenuScene::MainMenuScene(Nigozi::SceneManager* sceneManager)
+	:Scene(sceneManager)
 {
 }
 
