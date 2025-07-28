@@ -10,6 +10,7 @@ FoodScript::FoodScript(Nigozi::Entity entity)
 	std::uniform_int_distribution<int> distY(-4, 4);
 	transform.Position.x = distX(rd);
 	transform.Position.y = distY(rd);
+	transform.Scale = glm::vec3(0.5f, 0.5f, 1.0f);
 
 	auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
 	sprite.Color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
