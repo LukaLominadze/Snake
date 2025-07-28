@@ -10,6 +10,9 @@ public:
 
 	virtual void OnUpdate(float timestep) override;
 private:
+	void TailCollisionAndMovement();
+	void EatFood();
+private:
 	Observer m_onUpdate;
 
 	std::shared_ptr<Nigozi::Texture> m_tailTexture;

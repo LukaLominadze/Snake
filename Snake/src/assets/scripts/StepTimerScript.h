@@ -16,7 +16,7 @@ public:
 private:
 	Event m_event;
 
-	float m_stepTime = 0.1f;
+	float m_stepTime = 0.25f;
 	float m_elapsedTime = 0.0f;
 };
 

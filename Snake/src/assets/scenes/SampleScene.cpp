@@ -16,6 +16,8 @@ SampleScene::SampleScene(Nigozi::SceneManager* sceneManager)
 	Nigozi::Entity food = CreateEntity("Apple", "Food");
 	food.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-tail.png", glm::vec2{ 0, 0 });
 	food.AddComponent<Nigozi::ScriptComponent>(std::make_shared<FoodScript>(food));
+
+	Nigozi::Renderer2D::SetClearColor(0.2f, 0.2f, 0.5f, 1.0f);
 }
 
 SampleScene::~SampleScene()
