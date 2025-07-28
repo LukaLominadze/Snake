@@ -94,7 +94,6 @@ void PlayerScript::EatFood()
 		auto& foodTransform = food.GetComponent<Nigozi::TransformComponent>();
 		glm::vec3 diff = glm::abs(transform.Position - foodTransform.Position);
 		if (diff.x < 0.1f && diff.y < 0.1f) {
-			food.Destroy();
 			Nigozi::Entity tail = m_entityHandle.GetScene()->CreateEntity("Tail" + m_tail.size(), "Tail");
 			auto& sprite = tail.AddComponent<Nigozi::SpriteRendererComponent>(m_tailTexture, m_tailSubTexture);
 			sprite.Color = m_color;
@@ -111,9 +110,8 @@ void PlayerScript::EatFood()
 				tailTransform.Position = m_tail[m_tail.size() - 1]->Position + direction * m_speed;
 			}
 			m_tail.push_back(&tailTransform);
-			Nigozi::Entity food = m_entityHandle.GetScene()->CreateEntity("Apple", "Food");
-			food.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-tail.png", glm::vec2{ 0, 0 });
-			food.AddComponent<Nigozi::ScriptComponent>(std::make_shared<FoodScript>(food));
+			auto& script = food.GetComponent<Nigozi::ScriptComponent>();
+			((FoodScript*)(script.ScriptHandle.get()))->Eat();
 			break;
 		}
 	}
