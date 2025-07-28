@@ -3,14 +3,23 @@
 PlayerScript::PlayerScript(Nigozi::Entity entity)
 	:Script(entity)
 {
+	direction = glm::vec3(1.0f, 0.0f, 0.0f);
 }
 
 void PlayerScript::OnUpdate(float timestep)
 {
 	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
-	float directionX = -(static_cast<float>(Nigozi::Input::IsKeyPressed(GLFW_KEY_A))) +
-						(static_cast<float>(Nigozi::Input::IsKeyPressed(GLFW_KEY_D)));
-	float directionY = -(static_cast<float>(Nigozi::Input::IsKeyPressed(GLFW_KEY_S))) +
-						(static_cast<float>(Nigozi::Input::IsKeyPressed(GLFW_KEY_W)));
-	transform.Position += glm::vec3(directionX * m_speed, directionY * m_speed, 0.0f);
+	float directionX = Nigozi::Input::GetAxis(GLFW_KEY_A, GLFW_KEY_D);
+	float directionY = Nigozi::Input::GetAxis(GLFW_KEY_S, GLFW_KEY_W);
+	if (directionX != 0)
+	{
+		direction.x = directionX;
+		direction.y = 0.0f;
+	}
+	else if (directionY != 0)
+	{
+		direction.y = directionY;
+		direction.x = 0.0f;
+	}
+	transform.Position += glm::vec3(direction.x * m_speed * timestep, direction.y * m_speed * timestep, 0.0f);
 }

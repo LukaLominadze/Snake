@@ -9,6 +9,7 @@ public:
 
 	virtual void OnUpdate(float timestep) override;
 private:
-	float m_speed = 0.1f;
+	glm::vec3 direction;
+	float m_speed = 4.0f;
 };
 
