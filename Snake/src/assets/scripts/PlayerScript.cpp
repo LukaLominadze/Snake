@@ -102,5 +102,8 @@ void PlayerScript::OnUpdate(float timestep)
 			m_direction.x = 0.0f;
 		}
 	}
-	transform.Rotation = m_headRotations[ m_direction.x + m_direction.y * 2 ];
+	
+	// Head rotation
+	transform.Rotation = (m_direction.x + 2) * glm::abs(m_direction.x) * -90.0f +
+						 (m_direction.y + 3) * glm::abs(m_direction.y) * 90.0f;
 }
