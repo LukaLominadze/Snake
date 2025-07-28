@@ -1,14 +1,55 @@
 #include "PlayerScript.h"
 #include "StepTimerScript.h"
+#include "FoodScript.h"
 
 PlayerScript::PlayerScript(Nigozi::Entity entity)
 	:Script(entity),
 	m_onUpdate([this]() {
 		auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
-		transform.Position += glm::vec3(m_direction.x, m_direction.y, 0.0f);
+
+		if (!m_tail.empty()) {
+			for (size_t i = m_tail.size() - 1; i > 0; i--) {
+				m_tail[i]->Position = m_tail[i - 1]->Position;
+			}
+			m_tail[0]->Position = transform.Position;
+		}
+
+		transform.Position += glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);
+
+		std::vector<Nigozi::Entity> foods = m_entityHandle.GetScene()->TryGetEntitiesByTag("Food");
+		if (foods.empty()) {
+			return;
+		}
+		for (Nigozi::Entity& food : foods) {
+			auto& foodTransform = food.GetComponent<Nigozi::TransformComponent>();
+			glm::vec3 diff = glm::abs(transform.Position - foodTransform.Position);
+			if (diff.x < 0.1f && diff.y < 0.1f) {
+				food.Destroy();
+				Nigozi::Entity tail = m_entityHandle.GetScene()->CreateEntity("Tail" + m_tail.size(), "Tail");
+				tail.AddComponent<Nigozi::SpriteRendererComponent>("src/Nigozi/res/textures/flatQuad.png", glm::vec2{ 0, 0 });
+				auto& tailTransform = tail.GetComponent<Nigozi::TransformComponent>();
+				if (m_tail.empty()) {
+					tailTransform.Position = transform.Position - glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);
+				}
+				else if (m_tail.size() == 1) {
+					tailTransform.Position = m_tail[0]->Position - glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);
+				}
+				else {
+					glm::vec3 diff = m_tail[m_tail.size() - 1]->Position - m_tail[m_tail.size() - 2]->Position;
+					glm::vec3 direction = glm::sign(diff);
+					tailTransform.Position = m_tail[m_tail.size() - 1]->Position + direction * m_speed;
+				}
+				m_tail.push_back(&tailTransform);
+				Nigozi::Entity food = m_entityHandle.GetScene()->CreateEntity("Apple", "Food");
+				food.AddComponent<Nigozi::SpriteRendererComponent>("src/Nigozi/res/textures/flatQuad.png", glm::vec2{ 0, 0 });
+				food.AddComponent<Nigozi::ScriptComponent>(std::make_shared<FoodScript>(food));
+				break;
+			}
+		}
 		})
 {
 	m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
+
 	Nigozi::Entity stepTimer = m_entityHandle.GetScene()->TryGetEntityByTag("StepTimer");
 	auto& script = stepTimer.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
 	((StepTimerScript*)(script.get()))->AddListener(&m_onUpdate);
@@ -18,12 +59,12 @@ void PlayerScript::OnUpdate(float timestep)
 {
 	float directionX = Nigozi::Input::GetAxis(GLFW_KEY_A, GLFW_KEY_D);
 	float directionY = Nigozi::Input::GetAxis(GLFW_KEY_S, GLFW_KEY_W);
-	if (directionX != 0)
+	if (directionX != 0 && m_direction.x != -directionX)
 	{
 		m_direction.x = directionX;
 		m_direction.y = 0.0f;
 	}
-	else if (directionY != 0)
+	else if (directionY != 0 && m_direction.y != -directionY)
 	{
 		m_direction.y = directionY;
 		m_direction.x = 0.0f;

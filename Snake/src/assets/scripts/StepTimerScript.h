@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Nigozi.h>
-#include "Event.h"
+#include "misc/Event.h"
 
 class StepTimerScript : public Nigozi::Script
 {
@@ -16,7 +16,7 @@ public:
 private:
 	Event m_event;
 
-	float m_stepTime = 0.5f;
+	float m_stepTime = 0.1f;
 	float m_elapsedTime = 0.0f;
 };
 

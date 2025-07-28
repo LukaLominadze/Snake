@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Nigozi.h>
-#include "Observer.h"
+#include "misc/Observer.h"
 
 class PlayerScript : public Nigozi::Script
 {
@@ -12,7 +12,9 @@ public:
 private:
 	Observer m_onUpdate;
 
+	std::vector<Nigozi::TransformComponent*> m_tail;
+
 	glm::vec3 m_direction;
-	float m_speed = 4.0f;
+	float m_speed = 1.0f;
 };
 

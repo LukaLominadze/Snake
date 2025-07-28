@@ -1,0 +1,16 @@
+#include "FoodScript.h"
+#include <random>
+
+FoodScript::FoodScript(Nigozi::Entity entity)
+	:Script(entity)
+{
+	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
+	std::random_device rd;
+	std::uniform_int_distribution<int> distX(-16, 16);
+	std::uniform_int_distribution<int> distY(-16, 16);
+	transform.Position.x = distX(rd);
+	transform.Position.y = distY(rd);
+
+	auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
+	sprite.Color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+}
