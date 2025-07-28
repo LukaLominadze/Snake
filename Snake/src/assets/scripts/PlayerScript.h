@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Nigozi.h>
+#include "Observer.h"
 
 class PlayerScript : public Nigozi::Script
 {
@@ -9,7 +10,9 @@ public:
 
 	virtual void OnUpdate(float timestep) override;
 private:
-	glm::vec3 direction;
+	Observer m_onUpdate;
+
+	glm::vec3 m_direction;
 	float m_speed = 4.0f;
 };
 
