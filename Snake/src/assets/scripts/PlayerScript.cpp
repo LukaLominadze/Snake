@@ -7,8 +7,9 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 	m_tailTexture(std::make_shared<Nigozi::Texture>("src/assets/sprites/snake-tail.png")),
 	m_tailSubTexture(std::make_shared<Nigozi::SubTexture>(m_tailTexture, glm::vec2{ 0.0f, 0.0f })),
 	m_onUpdate([this]() {
-		TailCollisionAndMovement();
-		EatFood();
+			if (TailCollisionAndMovement()) {
+				EatFood();
+			}
 		})
 {
 	m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -57,7 +58,7 @@ void PlayerScript::OnUpdate(float timestep)
 	}
 }
 
-void PlayerScript::TailCollisionAndMovement()
+bool PlayerScript::TailCollisionAndMovement()
 {
 	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
 
@@ -66,7 +67,7 @@ void PlayerScript::TailCollisionAndMovement()
 			glm::vec3 diff = glm::abs(transform.Position - position->Position);
 			if (diff.x < 0.1f && diff.y < 0.1f) {
 				m_entityHandle.GetScene()->GetSceneManager()->LoadCurrentScene();
-				return;
+				return false;
 			}
 		}
 		for (size_t i = m_tail.size() - 1; i > 0; i--) {
@@ -79,6 +80,7 @@ void PlayerScript::TailCollisionAndMovement()
 	// Head rotation
 	transform.Rotation = m_direction.x * 90.0f +
 		(m_direction.y + 3) * m_direction.y * 90.0f;
+	return true;
 }
 
 void PlayerScript::EatFood()

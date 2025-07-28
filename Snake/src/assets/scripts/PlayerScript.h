@@ -10,7 +10,7 @@ public:
 
 	virtual void OnUpdate(float timestep) override;
 private:
-	void TailCollisionAndMovement();
+	bool TailCollisionAndMovement();
 	void EatFood();
 private:
 	Observer m_onUpdate;
