@@ -1,11 +1,11 @@
 Level:
   Assets:
     Wall:
-      Path: src/Nigozi/res/textures/flatQuad.png
+      Path: src/assets/sprites/wall.png
       Color: [0.0, 0.0, 1.0, 1.0]
     Floor:
-      Path: src/Nigozi/res/textures/flatQuad.png
-      Color: [1.0, 1.0, 0.0, 1.0]
+      Path: src/assets/sprites/floor.png
+      Color: [1.0, 0.9, 0.4, 1.0]
   Width: 12
   Height: 12
   PointsToWin: 5
