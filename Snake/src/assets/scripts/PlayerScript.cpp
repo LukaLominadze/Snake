@@ -96,7 +96,7 @@ void PlayerScript::EatFood()
 		if (diff.x < 0.1f && diff.y < 0.1f) {
 			Nigozi::Entity tail = m_entityHandle.GetScene()->CreateEntity("Tail" + m_tail.size(), "Tail");
 			auto& sprite = tail.AddComponent<Nigozi::SpriteRendererComponent>(m_tailTexture, m_tailSubTexture);
-			sprite.Color = m_color;
+			sprite.Color = glm::vec4(m_color.x + m_tail.size() * 0.05f, m_color.y, m_color.z, m_color.w);
 			auto& tailTransform = tail.GetComponent<Nigozi::TransformComponent>();
 			if (m_tail.empty()) {
 				tailTransform.Position = transform.Position - glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);

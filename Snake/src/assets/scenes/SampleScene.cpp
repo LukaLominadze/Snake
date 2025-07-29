@@ -17,6 +17,11 @@ SampleScene::SampleScene(Nigozi::SceneManager* sceneManager)
 	food.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-tail.png", glm::vec2{ 0, 0 });
 	food.AddComponent<Nigozi::ScriptComponent>(std::make_shared<FoodScript>(food));
 
+	Nigozi::Entity numberTest = CreateEntity("FoodCounter", "FoodCounter");
+	numberTest.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/numbers.png", glm::vec2{ 128.0f, 128.0f }, 1, 0);
+	auto& transform = numberTest.GetComponent<Nigozi::TransformComponent>();
+	transform.Position.y = 5.5f;
+
 	Nigozi::Renderer2D::SetClearColor(0.2f, 0.2f, 0.5f, 1.0f);
 }
 
