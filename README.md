@@ -1,5 +1,6 @@
 # Snake
 This is a snake game made with my [C++ game engine](https://github.com/LukaLominadze/NigoziEngine).
+
 Features:
 - Controls: WASD
 - Resizable window with fullscreen functionality
