@@ -13,6 +13,8 @@ public:
 	virtual void OnUpdate(float timestep) override;
 	virtual void OnRender() override;
 	virtual void OnImGuiRender() override;
+
+	static Nigozi::OrthographicCamera& GetMainCamera();
 private:
 	bool OnWindowResized(Nigozi::WindowResizedEvent& event);
 	bool OnKeyPressed(Nigozi::KeyPressedEvent& event);
