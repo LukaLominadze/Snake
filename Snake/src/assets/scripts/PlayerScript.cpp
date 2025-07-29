@@ -10,16 +10,33 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 			if (TailCollisionAndMovement()) {
 				EatFood();
 			}
+		}),
+	m_onLevelLoaded([this]() {
+			std::vector<Nigozi::Entity> tails = m_entityHandle.GetScene()->TryGetEntitiesByTag("Tail");
+			for (Nigozi::Entity entity : tails) {
+				entity.Destroy();
+			}
+			m_tail.clear();
+
+			Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
+			auto& script = levelManager.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
+			glm::vec2 spawnPosition = ((LevelManagerScript*)(script.get()))->GetPlayerSpawnPosition();
+
+			auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
+			transform.Position = spawnPosition;
+			
+			m_direction = glm::vec2(1.0f, 0.0f);
 		})
 {
-	m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
+	m_direction = glm::vec2(1.0f, 0.0f);
 
 	auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
 	sprite.Color = m_color;
 
-	Nigozi::Entity stepTimer = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
-	auto& script = stepTimer.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
-	((LevelManagerScript*)(script.get()))->AddListener(&m_onUpdate);
+	Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
+	auto& script = levelManager.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
+	((LevelManagerScript*)(script.get()))->AddOnStepListener(&m_onUpdate);
+	((LevelManagerScript*)(script.get()))->AddOnLevelLoadedListener(&m_onLevelLoaded);
 }
 
 void PlayerScript::OnUpdate(float timestep)
@@ -31,7 +48,7 @@ void PlayerScript::OnUpdate(float timestep)
 	if (directionX != 0 && m_direction.x != -directionX)
 	{
 		if (!m_tail.empty()) {
-			glm::vec3 diff = glm::abs(m_tail[0]->Position - (transform.Position + glm::vec3(directionX, 0.0f, 0.0f)));
+			glm::vec2 diff = glm::abs(m_tail[0]->Position - (transform.Position + glm::vec2(directionX, 0.0f)));
 			if (diff.x >= 0.1f || diff.y >= 0.1f) {
 				m_direction.x = directionX;
 				m_direction.y = 0.0f;
@@ -45,7 +62,7 @@ void PlayerScript::OnUpdate(float timestep)
 	else if (directionY != 0 && m_direction.y != -directionY)
 	{
 		if (!m_tail.empty()) {
-			glm::vec3 diff = glm::abs(m_tail[0]->Position - (transform.Position + glm::vec3(0.0f, directionY, 0.0f)));
+			glm::vec2 diff = glm::abs(m_tail[0]->Position - (transform.Position + glm::vec2(0.0f, directionY)));
 			if (diff.x >= 0.1f || diff.y >= 0.1f) {
 				m_direction.y = directionY;
 				m_direction.x = 0.0f;
@@ -64,7 +81,7 @@ bool PlayerScript::TailCollisionAndMovement()
 
 	if (!m_tail.empty()) {
 		for (auto* position : m_tail) {
-			glm::vec3 diff = glm::abs(transform.Position - position->Position);
+			glm::vec2 diff = glm::abs(transform.Position - position->Position);
 			if (diff.x < 0.1f && diff.y < 0.1f) {
 				m_entityHandle.GetScene()->GetSceneManager()->LoadCurrentScene();
 				return false;
@@ -76,7 +93,7 @@ bool PlayerScript::TailCollisionAndMovement()
 		m_tail[0]->Position = transform.Position;
 	}
 
-	transform.Position += glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);
+	transform.Position += glm::vec2(m_direction.x * m_speed, m_direction.y * m_speed);
 	// Head rotation
 	transform.Rotation = m_direction.x * 90.0f +
 		(m_direction.y + 3) * m_direction.y * 90.0f;
@@ -92,26 +109,31 @@ void PlayerScript::EatFood()
 	}
 	for (Nigozi::Entity& food : foods) {
 		auto& foodTransform = food.GetComponent<Nigozi::TransformComponent>();
-		glm::vec3 diff = glm::abs(transform.Position - foodTransform.Position);
+		glm::vec2 diff = glm::abs(transform.Position - foodTransform.Position);
 		if (diff.x < 0.1f && diff.y < 0.1f) {
 			Nigozi::Entity tail = m_entityHandle.GetScene()->CreateEntity("Tail" + m_tail.size(), "Tail");
 			auto& sprite = tail.AddComponent<Nigozi::SpriteRendererComponent>(m_tailTexture, m_tailSubTexture);
-			sprite.Color = glm::vec4(m_color.x + m_tail.size() * 0.05f, m_color.y, m_color.z, m_color.w);
-			auto& tailTransform = tail.GetComponent<Nigozi::TransformComponent>();
-			if (m_tail.empty()) {
-				tailTransform.Position = transform.Position - glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);
-			}
-			else if (m_tail.size() == 1) {
-				tailTransform.Position = m_tail[0]->Position - glm::vec3(m_direction.x * m_speed, m_direction.y * m_speed, 0.0f);
+			if (m_tail.size() < 20) {
+				sprite.Color = glm::vec4(m_color.x + m_tail.size() * 0.05f, m_color.y, m_color.z, m_color.w);
 			}
 			else {
-				glm::vec3 diff = m_tail[m_tail.size() - 1]->Position - m_tail[m_tail.size() - 2]->Position;
-				glm::vec3 direction = glm::sign(diff);
+				sprite.Color = glm::vec4(1.0f - (m_tail.size() - 20) * 0.05f, m_color.y, m_color.z + (m_tail.size() - 20) * 0.05f, m_color.w);
+			}
+			auto& tailTransform = tail.GetComponent<Nigozi::TransformComponent>();
+			if (m_tail.empty()) {
+				tailTransform.Position = transform.Position - glm::vec2(m_direction.x * m_speed, m_direction.y * m_speed);
+			}
+			else if (m_tail.size() == 1) {
+				tailTransform.Position = m_tail[0]->Position - glm::vec2(m_direction.x * m_speed, m_direction.y * m_speed);
+			}
+			else {
+				glm::vec2 diff = m_tail[m_tail.size() - 1]->Position - m_tail[m_tail.size() - 2]->Position;
+				glm::vec2 direction = glm::sign(diff);
 				tailTransform.Position = m_tail[m_tail.size() - 1]->Position + direction * m_speed;
 			}
 			m_tail.push_back(&tailTransform);
 			auto& script = food.GetComponent<Nigozi::ScriptComponent>();
-			((FoodScript*)(script.ScriptHandle.get()))->Eat();
+			((FoodScript*)(script.ScriptHandle.get()))->Teleport();
 			Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
 			auto& levelManagerScript = levelManager.GetComponent<Nigozi::ScriptComponent>();
 			((LevelManagerScript*)(levelManagerScript.ScriptHandle.get()))->AddScore();

@@ -8,15 +8,16 @@ static Nigozi::OrthographicCamera* s_MainCamera = nullptr;
 SnakeLayer::SnakeLayer()
 	:m_camera(-(16.0f / 9.0f) * m_zoom, (16.0f / 9.0f) * m_zoom, -m_zoom, m_zoom)
 {
+	m_camera.SetPosition(glm::vec3(0.0f, -0.5f, 0.0f));
 	s_MainCamera = &m_camera;
 }
 
 void SnakeLayer::OnAttach()
 {
-	m_sceneManager = Nigozi::SceneManager("Sample", [this]() { return std::make_shared<SampleScene>(&m_sceneManager); });
+	m_sceneManager = Nigozi::SceneManager("MainMenu", [this]() { return std::make_shared<MainMenuScene>(&m_sceneManager); });
 	m_sceneManager.OnAttach();
-	m_sceneManager.AddSceneToMap("MainMenu", [this]() { return std::make_shared<MainMenuScene>(&m_sceneManager); });
-	m_sceneManager.LoadScene("MainMenu");
+	m_sceneManager.AddSceneToMap("Sample", [this]() { return std::make_shared<SampleScene>(&m_sceneManager); });
+	//m_sceneManager.LoadScene("MainMenu");
 }
 
 void SnakeLayer::OnEvent(Nigozi::Event& event)
@@ -54,6 +55,7 @@ bool SnakeLayer::OnWindowResized(Nigozi::WindowResizedEvent& event)
 	float height = event.GetHeight();
 	float aspectRatio = width / height;
 	m_camera.SetProjection(-aspectRatio * m_zoom, aspectRatio * m_zoom, -m_zoom, m_zoom);
+	m_camera.SetPosition(m_camera.GetPosition());
 	return false;
 }
 

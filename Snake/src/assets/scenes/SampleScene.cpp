@@ -10,11 +10,13 @@ SampleScene::SampleScene(Nigozi::SceneManager* sceneManager)
 	levelManager.AddComponent<Nigozi::ScriptComponent>(std::make_shared<LevelManagerScript>(levelManager));
 
 	Nigozi::Entity player = CreateEntity("Player", "Player");
-	player.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-head.png", glm::vec2{ 0, 0 });
+	auto& playerSprite = player.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-head.png", glm::vec2{ 0, 0 });
+	playerSprite.ZOrder = 1;
 	player.AddComponent<Nigozi::ScriptComponent>(std::make_shared<PlayerScript>(player));
 
 	Nigozi::Entity food = CreateEntity("Apple", "Food");
-	food.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-tail.png", glm::vec2{ 0, 0 });
+	auto& foodSprite = food.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-tail.png", glm::vec2{ 0, 0 });
+	foodSprite.ZOrder = 2;
 	food.AddComponent<Nigozi::ScriptComponent>(std::make_shared<FoodScript>(food));
 
 	Nigozi::Renderer2D::SetClearColor(0.2f, 0.2f, 0.2f, 1.0f);
