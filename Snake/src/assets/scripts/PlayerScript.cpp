@@ -1,5 +1,5 @@
 #include "PlayerScript.h"
-#include "StepTimerScript.h"
+#include "LevelManagerScript.h"
 #include "FoodScript.h"
 
 PlayerScript::PlayerScript(Nigozi::Entity entity)
@@ -17,9 +17,9 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 	auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
 	sprite.Color = m_color;
 
-	Nigozi::Entity stepTimer = m_entityHandle.GetScene()->TryGetEntityByTag("StepTimer");
+	Nigozi::Entity stepTimer = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
 	auto& script = stepTimer.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
-	((StepTimerScript*)(script.get()))->AddListener(&m_onUpdate);
+	((LevelManagerScript*)(script.get()))->AddListener(&m_onUpdate);
 }
 
 void PlayerScript::OnUpdate(float timestep)
@@ -112,6 +112,9 @@ void PlayerScript::EatFood()
 			m_tail.push_back(&tailTransform);
 			auto& script = food.GetComponent<Nigozi::ScriptComponent>();
 			((FoodScript*)(script.ScriptHandle.get()))->Eat();
+			Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
+			auto& levelManagerScript = levelManager.GetComponent<Nigozi::ScriptComponent>();
+			((LevelManagerScript*)(levelManagerScript.ScriptHandle.get()))->AddScore();
 			break;
 		}
 	}

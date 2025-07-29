@@ -8,8 +8,6 @@ static Nigozi::OrthographicCamera* s_MainCamera = nullptr;
 SnakeLayer::SnakeLayer()
 	:m_camera(-(16.0f / 9.0f) * m_zoom, (16.0f / 9.0f) * m_zoom, -m_zoom, m_zoom)
 {
-	// There is a little offset at position 0, don't know why
-	m_camera.SetPosition(glm::vec3(0.5f, 0.0f, 0.0f));
 	s_MainCamera = &m_camera;
 }
 
