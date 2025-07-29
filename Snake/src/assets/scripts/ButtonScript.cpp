@@ -2,8 +2,18 @@
 #include "layers/SnakeLayer.h"
 
 ButtonScript::ButtonScript(Nigozi::Entity entity)
-    :Script(entity)
+    :Script(entity),
+    m_onStartedPressingListener([this]() {
+            auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
+            sprite.Color = m_onPressingColor;
+        }),
+    m_onPressedListener([this]() {
+            auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
+            sprite.Color = m_defaultColor;
+        })
 {
+    m_onStartedPressing.AddListener(&m_onStartedPressingListener);
+    m_onPressed.AddListener(&m_onPressedListener);
 }
 
 ButtonScript::~ButtonScript()
@@ -78,5 +88,7 @@ bool ButtonScript::OnMouseButtonReleasedEvent(Nigozi::MouseButtonReleasedEvent& 
             return false;
         }
     }
+    auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
+    sprite.Color = m_defaultColor;
     return false;
 }

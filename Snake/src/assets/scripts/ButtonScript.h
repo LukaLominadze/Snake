@@ -21,6 +21,11 @@ private:
 	bool OnMouseButtonReleasedEvent(Nigozi::MouseButtonReleasedEvent& event);
 private:
 	Event m_onStartedPressing, m_onPressed;
+	Observer m_onStartedPressingListener, m_onPressedListener;
+
+	glm::vec4 m_onPressingColor = glm::vec4(0.6f, 0.6f, 0.6f, 1.0f);
+	glm::vec4 m_defaultColor = glm::vec4(1.0f);
+
 
 	bool m_isPressing = false;
 };
