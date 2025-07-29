@@ -27,7 +27,7 @@ Note: The dependencies are handled with the repository's build system
 ## Building
 clone the repository with ```git clone --recursive https://github.com/LukaLominadze/Snake``` and build the project with ```setup-windwos.bat```.
 
-If you don't want to build for visual studio, you will have to run command from the root directory: ```NigoziEngine\vendor\bin\scripts\premake\premake5 [action]```
+If you don't want to build for visual studio, you will have to run the following command from the root directory: ```NigoziEngine\vendor\bin\scripts\premake\premake5 [action]```
 feel free to run ```NigoziEngine\vendor\bin\scripts\premake\premake5 --help``` to choose the appropriate action.
 
 Otherwise, run and build with visual studio.
