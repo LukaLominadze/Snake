@@ -23,24 +23,24 @@ public:
 	void AddOnLevelLoadedListener(Observer* listener);
 	void RemoveOnLevelLoadedListener(Observer* listener);
 
+	inline const glm::vec2 GetMapSize() const { return m_mapSize; }
 	inline const std::vector<glm::vec2>& GetFloorPositions() const { return m_floorPositions; }
 	inline const glm::vec2 GetPlayerSpawnPosition() const { return m_playerSpawn; }
 private:
 	bool OnWindowResizedEvent(Nigozi::WindowResizedEvent& event);
 private:
-	Nigozi::Entity m_scoreDigit1Entity;
-	Nigozi::Entity m_scoreDigit2Entity;
-	Nigozi::Entity m_backgroundEntity;
+	Nigozi::Entity m_scoreDigit1Entity, m_scoreDigit2Entity, m_backgroundEntity;
+	Nigozi::Entity m_finishedLevelTextEntity, m_wonGameTextEntity;
 
 	Event m_onStep, m_onLevelLoaded;
 
 	std::shared_ptr<Nigozi::Texture> p_numberAtlas;
-	std::shared_ptr<Nigozi::SubTexture> p_scoreDigit1SubTexture;
-	std::shared_ptr<Nigozi::SubTexture> p_scoreDigit2SubTexture;
+	std::shared_ptr<Nigozi::SubTexture> p_scoreDigit1SubTexture, p_scoreDigit2SubTexture;
 
-	glm::vec2 m_playerSpawn = glm::vec2(0.0f);
+	glm::vec2 m_playerSpawn = glm::vec2(0.0f), m_mapSize;
 	glm::vec4 m_backgroundColor = glm::vec4(0.2f, 0.6f, 0.1f, 1.0f);
 
+	std::vector<std::filesystem::path> m_levels;
 	std::vector<glm::vec2> m_floorPositions;
 	std::vector<Nigozi::Entity> m_map;
 
@@ -51,6 +51,6 @@ private:
 
 	uint32_t m_score = 0, m_pointsToWin;
 
-	bool m_completedLevel = false;
+	bool m_completedLevel = false, m_won = false;
 };
 

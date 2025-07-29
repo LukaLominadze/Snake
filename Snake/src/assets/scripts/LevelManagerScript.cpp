@@ -28,7 +28,23 @@ LevelManagerScript::LevelManagerScript(Nigozi::Entity entity)
 	transform.Scale = glm::vec2(12.0f * aspect, 12.0f);
 	transform.Position = glm::vec2(0.0f, 0.0f);
 
-	LoadLevel("src/assets/levels/level0.yaml");
+	m_finishedLevelTextEntity = m_entityHandle.GetScene()->CreateEntity("LevelCompleted", "Text");
+	m_finishedLevelTextEntity.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/level-completed.png", glm::vec2(0.0f), -3);
+	auto& levelFinishTransform = m_finishedLevelTextEntity.GetComponent<Nigozi::TransformComponent>();
+	levelFinishTransform.Scale = glm::vec2(8.0f, 1.0f);
+	
+	m_wonGameTextEntity = m_entityHandle.GetScene()->CreateEntity("YouWon", "Text");
+	m_wonGameTextEntity.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/you-won.png", glm::vec2(0.0f), -3);
+	auto& wonGameTransform = m_wonGameTextEntity.GetComponent<Nigozi::TransformComponent>();
+	wonGameTransform.Scale = glm::vec2(8.0f, 2.0f);
+
+	for (const auto& entry : std::filesystem::directory_iterator("src/assets/levels")) {
+		m_levels.insert(m_levels.begin(), entry);
+	}
+
+	LoadLevel(m_levels[m_levels.size() - 1]);
+
+	m_levels.pop_back();
 }
 
 LevelManagerScript::~LevelManagerScript()
@@ -43,6 +59,9 @@ void LevelManagerScript::OnEvent(Nigozi::Event& event)
 
 void LevelManagerScript::OnUpdate(float timestep)
 {
+	if (m_won)
+		return;
+
 	m_elapsedTime += timestep;
 	if (!m_completedLevel && m_elapsedTime >= m_stepTime) {
 		m_onStep.Invoke();
@@ -58,7 +77,15 @@ void LevelManagerScript::OnUpdate(float timestep)
 		}
 		if (m_map.empty()) {
 			UnloadCurrentLevel();
-			LoadLevel("src/assets/levels/level0.yaml");
+			if (m_levels.empty()) {
+				LOG("you win!");
+				auto& textSprite = m_wonGameTextEntity.GetComponent<Nigozi::SpriteRendererComponent>();
+				textSprite.ZOrder = 5;
+				m_won = true;
+				return;
+			}
+			LoadLevel(m_levels[m_levels.size() - 1]);
+			m_levels.pop_back();
 			m_completedLevel = false;
 		}
 	}
@@ -66,11 +93,8 @@ void LevelManagerScript::OnUpdate(float timestep)
 
 void LevelManagerScript::UnloadCurrentLevel()
 {
-	// destroy any leftover tiles
-	std::vector<Nigozi::Entity> map = m_entityHandle.GetScene()->TryGetEntitiesByTag("Map");
-	for (Nigozi::Entity entity : map) {
-		entity.Destroy();
-	}
+	auto& textSprite = m_finishedLevelTextEntity.GetComponent<Nigozi::SpriteRendererComponent>();
+	textSprite.ZOrder = -3;
 
 	// Resetting score
 	m_score = 0;
@@ -78,6 +102,8 @@ void LevelManagerScript::UnloadCurrentLevel()
 	auto& sprite2 = m_scoreDigit2Entity.GetComponent<Nigozi::SpriteRendererComponent>();
 	sprite1.Sprite->SetSlot(1, 0);
 	sprite2.Sprite->SetSlot(0, 0);
+
+	m_floorPositions.clear();
 }
 
 void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
@@ -103,9 +129,12 @@ void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
 
 	int width = rootNode["Width"].as<int>();
 	int height = rootNode["Height"].as<int>();
+	m_mapSize = glm::vec2(width, height);
+
 	m_pointsToWin = rootNode["PointsToWin"].as<uint32_t>();
 
 	std::vector<int> map = rootNode["Map"].as<std::vector<int>>();
+	// reserving for level completion animation
 	m_map.reserve(sizeof(Nigozi::Entity) * (int)map.size());
 
 	glm::vec2 offset(width / 2.0f, height / 2.0f);
@@ -165,6 +194,10 @@ void LevelManagerScript::AddScore()
 	if (++m_score >= m_pointsToWin) {
 		m_completedLevel = true;
 		m_destoryMapInteral = m_pauseAfterCompletionTime / m_map.size();
+		if (!m_levels.empty()) {
+			auto& textSprite = m_finishedLevelTextEntity.GetComponent<Nigozi::SpriteRendererComponent>();
+			textSprite.ZOrder = 5;
+		}
 		LOG("Next Level!");
 	}
 }

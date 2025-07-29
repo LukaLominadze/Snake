@@ -10,7 +10,7 @@ public:
 
 	virtual void OnUpdate(float timestep) override;
 private:
-	bool TailCollisionAndMovement();
+	bool CollisionAndMovement();
 	void EatFood();
 private:
 	Observer m_onUpdate, m_onLevelLoaded;
@@ -21,7 +21,7 @@ private:
 	std::vector<Nigozi::TransformComponent*> m_tail;
 
 	glm::vec4 m_color = glm::vec4(0.2f, 0.8f, 0.2f, 1.0f);
-	glm::vec2 m_direction;
+	glm::vec2 m_direction, m_mapSize = glm::vec2(0.0f);
 	float m_speed = 1.0f;
 };
 

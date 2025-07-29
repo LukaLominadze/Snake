@@ -38,7 +38,7 @@ void FoodScript::Teleport()
 	const std::vector<glm::vec2>& positions = ((LevelManagerScript*)(script.ScriptHandle.get()))->GetFloorPositions();
 	std::random_device rd;
 
-	std::uniform_int_distribution<size_t> dist(0, positions.size());
+	std::uniform_int_distribution<size_t> dist(0, positions.size() - 1);
 	size_t it = dist(rd);
 	LOG("At! " << it);
 	transform.Position = positions.at(it);

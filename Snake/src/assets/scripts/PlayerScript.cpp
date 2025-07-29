@@ -7,7 +7,7 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 	m_tailTexture(std::make_shared<Nigozi::Texture>("src/assets/sprites/snake-tail.png")),
 	m_tailSubTexture(std::make_shared<Nigozi::SubTexture>(m_tailTexture, glm::vec2{ 0.0f, 0.0f })),
 	m_onUpdate([this]() {
-			if (TailCollisionAndMovement()) {
+			if (CollisionAndMovement()) {
 				EatFood();
 			}
 		}),
@@ -26,6 +26,8 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 			transform.Position = spawnPosition;
 			
 			m_direction = glm::vec2(1.0f, 0.0f);
+
+			m_mapSize = ((LevelManagerScript*)(script.get()))->GetMapSize();
 		})
 {
 	m_direction = glm::vec2(1.0f, 0.0f);
@@ -37,6 +39,13 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 	auto& script = levelManager.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
 	((LevelManagerScript*)(script.get()))->AddOnStepListener(&m_onUpdate);
 	((LevelManagerScript*)(script.get()))->AddOnLevelLoadedListener(&m_onLevelLoaded);
+
+	m_mapSize = ((LevelManagerScript*)(script.get()))->GetMapSize();
+
+	// Head rotation
+	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
+	transform.Rotation = m_direction.x * 90.0f +
+		(m_direction.y + 3) * m_direction.y * 90.0f;
 }
 
 void PlayerScript::OnUpdate(float timestep)
@@ -75,7 +84,7 @@ void PlayerScript::OnUpdate(float timestep)
 	}
 }
 
-bool PlayerScript::TailCollisionAndMovement()
+bool PlayerScript::CollisionAndMovement()
 {
 	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
 
@@ -94,6 +103,19 @@ bool PlayerScript::TailCollisionAndMovement()
 	}
 
 	transform.Position += glm::vec2(m_direction.x * m_speed, m_direction.y * m_speed);
+	if (transform.Position.x == m_mapSize.x / 2.0f) {
+		transform.Position.x = -m_mapSize.x / 2.0f;
+	}
+	else if (transform.Position.x < -m_mapSize.x / 2.0f) {
+		transform.Position.x = m_mapSize.x / 2.0f - 1;
+	}
+	else if (transform.Position.y == m_mapSize.y / 2.0f) {
+		transform.Position.y = -m_mapSize.y / 2.0f;
+	}
+	else if (transform.Position.y < -m_mapSize.y / 2.0f) {
+		transform.Position.y = m_mapSize.y / 2.0f - 1.0f;
+	}
+
 	// Head rotation
 	transform.Rotation = m_direction.x * 90.0f +
 		(m_direction.y + 3) * m_direction.y * 90.0f;
