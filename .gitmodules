@@ -2,3 +2,6 @@
 	path = NigoziEngine
 	url = https://www.github.com/LukaLominadze/NigoziEngine
 	branch = dev
+[submodule "vendor/yaml"]
+	path = vendor/yaml
+	url = https://github.com/TheCherno/yaml-cpp

@@ -8,7 +8,7 @@ project "Snake"
 	targetdir ("%{wks.location}/bin/" ..outputdir.. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" ..outputdir.. "/%{prj.name}")
 
-	defines { "GLEW_STATIC" }
+	defines { "GLEW_STATIC", "YAML_CPP_STATIC_DEFINE" }
 	
 	files {
 		"src/**.h",
@@ -27,7 +27,8 @@ project "Snake"
 				  "%{wks.location}/NigoziEngine/dependencies/glfw/include",
 				  "%{wks.location}/NigoziEngine/dependencies/stb",
 				  "%{wks.location}/NigoziEngine/dependencies/imgui",
-				  "%{wks.location}/NigoziEngine/dependencies/glm" }
+				  "%{wks.location}/NigoziEngine/dependencies/glm",
+				  "%{wks.location}/vendor/yaml/include" }
 
 	libdirs { "%{wks.location}/NigoziEngine/dependencies/libs/GLFW",
 			  "%{wks.location}/NigoziEngine/dependencies/glew/lib/Release/x64",
@@ -41,6 +42,7 @@ project "Snake"
 		"GLFW",
 		"STB",
 		"ImGui",
+		"yaml-cpp"
 		 }
 
 	configurations {

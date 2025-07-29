@@ -21,6 +21,7 @@ group "Dependencies"
 	include "NigoziEngine/dependencies/glew"
 	include "NigoziEngine/dependencies/stb"
 	include "NigoziEngine/dependencies/imgui"
+	include "vendor/yaml"
 	include "NigoziEngine/NigoziEngine"
 
 group "Main"
