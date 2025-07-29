@@ -104,6 +104,7 @@ void LevelManagerScript::UnloadCurrentLevel()
 	sprite2.Sprite->SetSlot(0, 0);
 
 	m_floorPositions.clear();
+	m_wallPositions.clear();
 }
 
 void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
@@ -120,6 +121,13 @@ void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
 
 	std::string wallPath = assetsNode["Wall"]["Path"].as<std::string>();
 	std::string floorPath = assetsNode["Floor"]["Path"].as<std::string>();
+
+	p_wallTexture.reset();
+	p_wallTexture = std::make_shared<Nigozi::Texture>(wallPath);
+	p_wallSubTexture = std::make_shared<Nigozi::SubTexture>(p_wallTexture, glm::vec2(0.0f));
+	p_floorTexture.reset();
+	p_floorTexture = std::make_shared<Nigozi::Texture>(floorPath);
+	p_floorSubTexture = std::make_shared<Nigozi::SubTexture>(p_floorTexture, glm::vec2(0.0f));
 
 	std::vector<float> wallColorVec = assetsNode["Wall"]["Color"].as<std::vector<float>>();
 	std::vector<float> floorColorVec = assetsNode["Floor"]["Color"].as<std::vector<float>>();
@@ -153,7 +161,7 @@ void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
 			{
 				Nigozi::Entity floor = m_entityHandle.GetScene()->CreateEntity("Floor", "Map");
 				m_map.push_back(floor);
-				auto& sprite = floor.AddComponent<Nigozi::SpriteRendererComponent>(floorPath, glm::vec2{ 0, 0 }, -1);
+				auto& sprite = floor.AddComponent<Nigozi::SpriteRendererComponent>(p_floorTexture, p_floorSubTexture, -1);
 				sprite.Color = floorColor;
 				auto& transform = floor.GetComponent<Nigozi::TransformComponent>();
 				transform.Position = glm::vec2(x - offset.x, y - offset.y);
@@ -163,10 +171,11 @@ void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
 			{
 				Nigozi::Entity wall = m_entityHandle.GetScene()->CreateEntity("Wall", "Map");
 				m_map.push_back(wall);
-				auto& sprite = wall.AddComponent<Nigozi::SpriteRendererComponent>(wallPath, glm::vec2{ 0, 0 }, -1);
+				auto& sprite = wall.AddComponent<Nigozi::SpriteRendererComponent>(p_wallTexture, p_wallSubTexture, -1);
 				sprite.Color = wallColor;
 				auto& transform = wall.GetComponent<Nigozi::TransformComponent>();
 				transform.Position = glm::vec2(x - offset.x, y - offset.y);
+				m_wallPositions.push_back(transform.Position);
 			}
 			if (type == TileType::PLAYER) {
 				m_playerSpawn = glm::vec2(x - offset.x, y - offset.y);

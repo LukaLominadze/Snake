@@ -2,6 +2,7 @@
 
 #include <Nigozi.h>
 #include "misc/Observer.h"
+#include "LevelManagerScript.h"
 
 class PlayerScript : public Nigozi::Script
 {
@@ -10,10 +11,13 @@ public:
 
 	virtual void OnUpdate(float timestep) override;
 private:
-	bool CollisionAndMovement();
+	bool PlayerCollision();
+	void PlayerMovement();
 	void EatFood();
 private:
 	Observer m_onUpdate, m_onLevelLoaded;
+
+	LevelManagerScript* p_levelManagerScript;
 
 	std::shared_ptr<Nigozi::Texture> m_tailTexture;
 	std::shared_ptr<Nigozi::SubTexture> m_tailSubTexture;

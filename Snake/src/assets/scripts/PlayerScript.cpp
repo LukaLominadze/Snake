@@ -7,7 +7,8 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 	m_tailTexture(std::make_shared<Nigozi::Texture>("src/assets/sprites/snake-tail.png")),
 	m_tailSubTexture(std::make_shared<Nigozi::SubTexture>(m_tailTexture, glm::vec2{ 0.0f, 0.0f })),
 	m_onUpdate([this]() {
-			if (CollisionAndMovement()) {
+			if (PlayerCollision()) {
+				PlayerMovement();
 				EatFood();
 			}
 		}),
@@ -20,14 +21,14 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 
 			Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
 			auto& script = levelManager.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
-			glm::vec2 spawnPosition = ((LevelManagerScript*)(script.get()))->GetPlayerSpawnPosition();
+			glm::vec2 spawnPosition = p_levelManagerScript->GetPlayerSpawnPosition();
 
 			auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
 			transform.Position = spawnPosition;
 			
 			m_direction = glm::vec2(1.0f, 0.0f);
 
-			m_mapSize = ((LevelManagerScript*)(script.get()))->GetMapSize();
+			m_mapSize = p_levelManagerScript->GetMapSize();
 		})
 {
 	m_direction = glm::vec2(1.0f, 0.0f);
@@ -37,10 +38,11 @@ PlayerScript::PlayerScript(Nigozi::Entity entity)
 
 	Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
 	auto& script = levelManager.GetComponent<Nigozi::ScriptComponent>().ScriptHandle;
-	((LevelManagerScript*)(script.get()))->AddOnStepListener(&m_onUpdate);
-	((LevelManagerScript*)(script.get()))->AddOnLevelLoadedListener(&m_onLevelLoaded);
+	p_levelManagerScript = ((LevelManagerScript*)(script.get()));
+	p_levelManagerScript->AddOnStepListener(&m_onUpdate);
+	p_levelManagerScript->AddOnLevelLoadedListener(&m_onLevelLoaded);
 
-	m_mapSize = ((LevelManagerScript*)(script.get()))->GetMapSize();
+	m_mapSize = p_levelManagerScript->GetMapSize();
 
 	// Head rotation
 	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
@@ -84,7 +86,7 @@ void PlayerScript::OnUpdate(float timestep)
 	}
 }
 
-bool PlayerScript::CollisionAndMovement()
+bool PlayerScript::PlayerCollision()
 {
 	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
 
@@ -101,6 +103,21 @@ bool PlayerScript::CollisionAndMovement()
 		}
 		m_tail[0]->Position = transform.Position;
 	}
+
+	const std::vector<glm::vec2>& wallPositions = p_levelManagerScript->GetWallPositions();
+	for (glm::vec2 wallPosition : wallPositions) {
+		glm::vec2 diff = glm::abs(transform.Position - wallPosition);
+		if (diff.x < 0.1f && diff.y < 0.1f) {
+			m_entityHandle.GetScene()->GetSceneManager()->LoadCurrentScene();
+			return false;
+		}
+	}
+	return true;
+}
+
+void PlayerScript::PlayerMovement()
+{
+	auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
 
 	transform.Position += glm::vec2(m_direction.x * m_speed, m_direction.y * m_speed);
 	if (transform.Position.x == m_mapSize.x / 2.0f) {
@@ -119,7 +136,6 @@ bool PlayerScript::CollisionAndMovement()
 	// Head rotation
 	transform.Rotation = m_direction.x * 90.0f +
 		(m_direction.y + 3) * m_direction.y * 90.0f;
-	return true;
 }
 
 void PlayerScript::EatFood()

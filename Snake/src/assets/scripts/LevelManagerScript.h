@@ -24,6 +24,7 @@ public:
 	void RemoveOnLevelLoadedListener(Observer* listener);
 
 	inline const glm::vec2 GetMapSize() const { return m_mapSize; }
+	inline const std::vector<glm::vec2>& GetWallPositions() const { return m_wallPositions; }
 	inline const std::vector<glm::vec2>& GetFloorPositions() const { return m_floorPositions; }
 	inline const glm::vec2 GetPlayerSpawnPosition() const { return m_playerSpawn; }
 private:
@@ -36,11 +37,14 @@ private:
 
 	std::shared_ptr<Nigozi::Texture> p_numberAtlas;
 	std::shared_ptr<Nigozi::SubTexture> p_scoreDigit1SubTexture, p_scoreDigit2SubTexture;
+	std::shared_ptr<Nigozi::Texture> p_floorTexture, p_wallTexture;
+	std::shared_ptr<Nigozi::SubTexture> p_floorSubTexture, p_wallSubTexture;
 
 	glm::vec2 m_playerSpawn = glm::vec2(0.0f), m_mapSize;
 	glm::vec4 m_backgroundColor = glm::vec4(0.2f, 0.6f, 0.1f, 1.0f);
 
 	std::vector<std::filesystem::path> m_levels;
+	std::vector<glm::vec2> m_wallPositions;
 	std::vector<glm::vec2> m_floorPositions;
 	std::vector<Nigozi::Entity> m_map;
 
