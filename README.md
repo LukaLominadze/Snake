@@ -8,8 +8,6 @@ Features:
 - ECS
 - YAML for level creation
 
-<img width="1280" alt="snake-preview" src="https://github.com/user-attachments/assets/68231d98-0d2f-4600-83e0-7388969aa444" />
-
 ![ezgif-69d3a97289b486](https://github.com/user-attachments/assets/b5d94891-0b45-4b71-8d2a-e476bc2d7916)
 
 ## Platform
@@ -26,7 +24,7 @@ Note: The dependencies are handled with the repository's build system
 - entt
 
 ## Building
-clone the repository with ```git clone --recursive https://github.com/LukaLominadze/Snake``` and build the project with ```setup-windwos.bat```.
+clone the repository with ```git clone --recursive https://github.com/LukaLominadze/Snake``` and build the project with ```setup-windows.bat```.
 
 If you don't want to build for visual studio, you will have to run the following command from the root directory: ```NigoziEngine\vendor\bin\scripts\premake\premake5 [action]```
 feel free to run ```NigoziEngine\vendor\bin\scripts\premake\premake5 --help``` to choose the appropriate action.
