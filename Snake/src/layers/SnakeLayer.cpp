@@ -1,6 +1,6 @@
 #include "SnakeLayer.h"
 #include "assets/scenes/MainMenuScene.h"
-#include "assets/scenes/SampleScene.h"
+#include "assets/scenes/GameScene.h"
 
 // Kind of hacky, but I think it's fine for now
 static Nigozi::OrthographicCamera* s_MainCamera = nullptr;
@@ -16,7 +16,7 @@ void SnakeLayer::OnAttach()
 {
 	m_sceneManager = Nigozi::SceneManager("MainMenu", [this]() { return std::make_shared<MainMenuScene>(&m_sceneManager); });
 	m_sceneManager.OnAttach();
-	m_sceneManager.AddSceneToMap("Sample", [this]() { return std::make_shared<SampleScene>(&m_sceneManager); });
+	m_sceneManager.AddSceneToMap("Game", [this]() { return std::make_shared<GameScene>(&m_sceneManager); });
 	//m_sceneManager.LoadScene("MainMenu");
 }
 

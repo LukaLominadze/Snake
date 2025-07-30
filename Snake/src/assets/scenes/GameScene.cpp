@@ -1,9 +1,9 @@
-#include "SampleScene.h"
+#include "GameScene.h"
 #include "assets/scripts/PlayerScript.h"
 #include "assets/scripts/LevelManagerScript.h"
 #include "assets/scripts/FoodScript.h"
 
-SampleScene::SampleScene(Nigozi::SceneManager* sceneManager)
+GameScene::GameScene(Nigozi::SceneManager* sceneManager)
 	:Scene(sceneManager)
 {
 	Nigozi::Entity levelManager = CreateEntity("LevelManager", "LevelManager");
@@ -22,6 +22,6 @@ SampleScene::SampleScene(Nigozi::SceneManager* sceneManager)
 	Nigozi::Renderer2D::SetClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 }
 
-SampleScene::~SampleScene()
+GameScene::~GameScene()
 {
 }

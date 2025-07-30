@@ -4,7 +4,7 @@
 MainMenuScript::MainMenuScript(Nigozi::Entity entity)
 	:Script(entity),
 	m_onPressed([this]() {
-			m_entityHandle.GetScene()->GetSceneManager()->LoadScene("Sample");
+			m_entityHandle.GetScene()->GetSceneManager()->LoadScene("Game");
 		})
 {
 	Nigozi::Entity buttonEntity = m_entityHandle.GetScene()->TryGetEntityByTag("PlayButton");

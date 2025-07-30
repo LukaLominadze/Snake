@@ -26,7 +26,7 @@ LevelManagerScript::LevelManagerScript(Nigozi::Entity entity)
 	float aspect = Nigozi::Window::GetGlobalWindowData().Width / (float)Nigozi::Window::GetGlobalWindowData().Height;
 	auto& transform = m_backgroundEntity.GetComponent<Nigozi::TransformComponent>();
 	transform.Scale = glm::vec2(12.0f * aspect, 12.0f);
-	transform.Position = glm::vec2(0.0f, 0.0f);
+	transform.Position = glm::vec2(0.0f, -0.5f);
 
 	m_finishedLevelTextEntity = m_entityHandle.GetScene()->CreateEntity("LevelCompleted", "Text");
 	m_finishedLevelTextEntity.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/level-completed.png", glm::vec2(0.0f), -3);
