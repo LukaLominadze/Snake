@@ -11,7 +11,7 @@ Features:
 ![ezgif-69d3a97289b486](https://github.com/user-attachments/assets/b5d94891-0b45-4b71-8d2a-e476bc2d7916)
 
 ## Platform
-This project is primarly supported on Windows
+This project is primarly supported on Windows and Linux (Ubuntu LTS 24.04.02 Tested)
 
 ## Dependencies
 Note: The dependencies are handled with the repository's build system
@@ -24,12 +24,20 @@ Note: The dependencies are handled with the repository's build system
 - entt
 
 ## Building
-clone the repository with ```git clone --recursive https://github.com/LukaLominadze/Snake``` and build the project with ```setup-windows.bat```.
+clone the repository with ```git clone --recursive https://github.com/LukaLominadze/Snake```
+
+### Windows
+To build the project, run ```setup-windows.bat```.
 
 If you don't want to build for visual studio, you will have to run the following command from the root directory: ```NigoziEngine\vendor\bin\scripts\premake\premake5 [action]```
 feel free to run ```NigoziEngine\vendor\bin\scripts\premake\premake5 --help``` to choose the appropriate action.
 
 Otherwise, run and build with visual studio.
+### Linux (Ubuntu LTS 24.04.02 Tested)
+To build the project, run ```setup-linux.sh``` and then run ```make```
+Optionally, run ```run make config={CONFIG} # config can be debug/release/distribution```.
+
+The build will be located in the generated ```bin``` directory.
 
 ## Make your levels!
 The metadeta for levels exist in YAML files, which gives the ability to freely add and mutate stages.
