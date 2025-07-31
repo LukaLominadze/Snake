@@ -54,12 +54,12 @@ project "Snake"
 	postbuildcommands {
 		"{COPYDIR} %{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi/res %{prj.location}/src/Nigozi/res",
 		"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/Nigozi",
-		"{COPYDIR} %{prj.location}/src/Nigozi %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/",
+		"{COPYDIR} %{prj.location}/src/Nigozi %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/Nigozi",
 		"{COPYDIR} %{prj.location}/logo-small.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
 		"{COPYDIR} %{prj.location}/logo.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
 		"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/assets/sprites",
-		"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
-		"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/"
+		"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/sprites",
+		"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/levels"
 	}
 
 	filter "system:windows"
