@@ -34,8 +34,8 @@ feel free to run ```NigoziEngine\vendor\bin\scripts\premake\premake5 --help``` t
 
 Otherwise, run and build with visual studio.
 ### Linux (Ubuntu LTS 24.04.02 Tested)
-To build the project, run ```setup-linux.sh``` and then run ```make```
-Optionally, run ```run make config={CONFIG} # config can be debug/release/distribution```.
+To build the project, run ```setup-linux.sh``` and then run ```make```.
+ Optionally, run ```run make config={CONFIG} # config can be debug/release/distribution```.
 
 The build will be located in the generated ```bin``` directory.
 
