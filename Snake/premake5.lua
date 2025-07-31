@@ -52,7 +52,14 @@ project "Snake"
 	}
 
 	postbuildcommands {
-		"{COPYDIR} %{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi/res %{prj.location}/src/Nigozi/res"
+		"{COPYDIR} %{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi/res %{prj.location}/src/Nigozi/res",
+		"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/Nigozi",
+		"{COPYDIR} %{prj.location}/src/Nigozi %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/",
+		"{COPYDIR} %{prj.location}/logo-small.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
+		"{COPYDIR} %{prj.location}/logo.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
+		"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/assets/sprites",
+		"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
+		"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/"
 	}
 
 	filter "system:windows"
@@ -67,7 +74,7 @@ project "Snake"
 		cppdialect "C++20"
 		systemversion "latest"
 		
-		defines { "GLFW_USE_X11", "NG_PLATFORM_LINUX" }
+		defines { "GLFW_USE_X11", "_GLFW_X11", "NG_PLATFORM_LINUX" }
 		
 		links { "GL",
 			"pthread",
