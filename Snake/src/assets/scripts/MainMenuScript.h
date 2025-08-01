@@ -9,6 +9,6 @@ public:
 	MainMenuScript(Nigozi::Entity entity);
 	~MainMenuScript();
 private:
-	Observer m_onPressed;
+	Observer m_onPlayPressed, m_onEditorPressed;
 };
 

@@ -57,12 +57,11 @@ bool ButtonScript::OnMouseButtonPressedEvent(Nigozi::MouseButtonPressedEvent& ev
         auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
         if (cameraPosition.x > (transform.Position.x - transform.Scale.x / 2.0f) &&
             cameraPosition.x < (transform.Position.x + transform.Scale.x / 2.0f) &&
-            cameraPosition.y >(transform.Position.y - transform.Scale.y / 2.0f) &&
+            cameraPosition.y > (transform.Position.y - transform.Scale.y / 2.0f) &&
             cameraPosition.y < (transform.Position.y + transform.Scale.y / 2.0f)) 
         {
             m_isPressing = true;
             m_onStartedPressing.Invoke();
-            LOG("Pressing...");
             return false;
         }
     }
@@ -80,11 +79,10 @@ bool ButtonScript::OnMouseButtonReleasedEvent(Nigozi::MouseButtonReleasedEvent& 
         auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
         if (cameraPosition.x > (transform.Position.x - transform.Scale.x / 2.0f) &&
             cameraPosition.x < (transform.Position.x + transform.Scale.x / 2.0f) &&
-            cameraPosition.y >(transform.Position.y - transform.Scale.y / 2.0f) &&
+            cameraPosition.y > (transform.Position.y - transform.Scale.y / 2.0f) &&
             cameraPosition.y < (transform.Position.y + transform.Scale.y / 2.0f))
         {
             m_onPressed.Invoke();
-            LOG("Pressed!");
             return false;
         }
     }

@@ -94,7 +94,7 @@ bool PlayerScript::PlayerCollision()
 		for (auto* position : m_tail) {
 			glm::vec2 diff = glm::abs(transform.Position - position->Position);
 			if (diff.x < 0.1f && diff.y < 0.1f) {
-				m_entityHandle.GetScene()->GetSceneManager()->LoadCurrentScene();
+				m_entityHandle.GetScene()->GetSceneManager()->QueueLoadScene("Game");
 				return false;
 			}
 		}
@@ -108,7 +108,7 @@ bool PlayerScript::PlayerCollision()
 	for (glm::vec2 wallPosition : wallPositions) {
 		glm::vec2 diff = glm::abs(transform.Position - wallPosition);
 		if (diff.x < 0.1f && diff.y < 0.1f) {
-			m_entityHandle.GetScene()->GetSceneManager()->LoadCurrentScene();
+			m_entityHandle.GetScene()->GetSceneManager()->QueueLoadScene("Game");
 			return false;
 		}
 	}

@@ -28,7 +28,8 @@ project "Snake"
 				  "%{wks.location}/NigoziEngine/dependencies/stb",
 				  "%{wks.location}/NigoziEngine/dependencies/imgui",
 				  "%{wks.location}/NigoziEngine/dependencies/glm",
-				  "%{wks.location}/vendor/yaml/include" }
+				  "%{wks.location}/vendor/yaml/include",
+				  "%{wks.location}/vendor/nfd/src/include" }
 
 	libdirs { "%{wks.location}/NigoziEngine/dependencies/libs/GLFW",
 			  "%{wks.location}/NigoziEngine/dependencies/glew/lib/Release/x64",
@@ -37,12 +38,13 @@ project "Snake"
 			  "%{wks.location}/NigoziEngine/dependencies/glew/lib" }
 
 	links {
+		"nfd",
 		"NigoziEngine",
 		"GLEW",
 		"GLFW",
 		"STB",
 		"ImGui",
-		"yaml-cpp"
+		"yaml-cpp",
 		 }
 
 	configurations {

@@ -5,3 +5,6 @@
 [submodule "vendor/yaml"]
 	path = vendor/yaml
 	url = https://github.com/TheCherno/yaml-cpp
+[submodule "vendor/nfd"]
+	path = vendor/nfd
+	url = https://github.com/LukaLominadze/nativefiledialog
