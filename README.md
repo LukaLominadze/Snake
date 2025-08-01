@@ -8,7 +8,13 @@ Features:
 - ECS
 - YAML for level creation
 
+## The game in action!
+
 ![ezgif-69d3a97289b486](https://github.com/user-attachments/assets/b5d94891-0b45-4b71-8d2a-e476bc2d7916)
+
+## Level editor!
+
+![ezgif-82f9eb3682b54e](https://github.com/user-attachments/assets/8b18cb0b-559b-4ce6-a834-ebf429790665)
 
 ## Platform
 This project is primarly supported on Windows and Linux (Ubuntu LTS 24.04.02 Tested)
@@ -40,33 +46,21 @@ To build the project, run ```setup-linux.sh``` and then run ```make```.
 The build will be located in the generated ```bin``` directory.
 
 ## Make your levels!
-The metadeta for levels exist in YAML files, which gives the ability to freely add and mutate stages.
-Go to ```Snake\src\assets\levels``` and add a file with ".yaml" extensions.
-Use this template to build levels:
-```yaml
-Level:
-  Assets:
-    Wall:
-      Path: src/assets/sprites/wall.png # wall sprite path
-      Color: [0.0, 0.0, 1.0, 1.0] # wall sprite color
-    Floor:
-      Path: src/assets/sprites/floor.png # floor sprite path
-      Color: [1.0, 0.9, 0.4, 1.0] # floor sprite color
-  Width: 12 # map width
-  Height: 12 # map height
-  PointsToWin: 5
-  # 0 - Floor; 1 - Wall; 2 - Player
-  Map:
-    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ]
-```
+Open up the game and go to Editor -> New (or "Load" to mutate existing levels)
+
+Options:
+- Wall texture - Change the wall texture
+- Floor texture - Change the floor texture
+- Brush - Draw walls on the map
+- Eraser - Erase walls on the map
+- Player - Choose the player's spawn position
+On ImGui window:
+- Level name
+- Wall color
+- Floor color
+- Points To Win
+- Save existing level
+- Save as a copy
+
+<img width="1602" height="932" alt="image" src="https://github.com/user-attachments/assets/3228fee4-c093-422b-8ad3-66b9ff2365be" />
+
