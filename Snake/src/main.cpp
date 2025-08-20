@@ -4,6 +4,6 @@
 #include "SnakeApplication.h"
 
 Nigozi::Application* CreateApplication() {
-	Nigozi::Application* app = new SnakeApplication({ "Snake", 1600, 900, true, false, "logo-small.png" });
+	Nigozi::Application* app = new SnakeApplication({ "Snake", 1600, 900, false, false, "logo-small.png" });
 	return app;
 }
