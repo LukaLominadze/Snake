@@ -23,19 +23,14 @@ project "Snake"
 	includedirs {  "src",
 				  "%{wks.location}/NigoziEngine/NigoziEngine/src",
 				  "%{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi",
-				  "%{wks.location}/NigoziEngine/dependencies/glew/include",
-				  "%{wks.location}/NigoziEngine/dependencies/glfw/include",
-				  "%{wks.location}/NigoziEngine/dependencies/stb",
-				  "%{wks.location}/NigoziEngine/dependencies/imgui",
-				  "%{wks.location}/NigoziEngine/dependencies/glm",
+				  "%{wks.location}/NigoziEngine/vendor/glew/include",
+				  "%{wks.location}/NigoziEngine/vendor/glfw/include",
+				  "%{wks.location}/NigoziEngine/vendor/stb",
+				  "%{wks.location}/NigoziEngine/vendor/imgui",
+				  "%{wks.location}/NigoziEngine/vendor/glm",
 				  "%{wks.location}/vendor/yaml/include",
-				  "%{wks.location}/vendor/nfd/src/include" }
-
-	libdirs { "%{wks.location}/NigoziEngine/dependencies/libs/GLFW",
-			  "%{wks.location}/NigoziEngine/dependencies/glew/lib/Release/x64",
-			  "%{wks.location}/NigoziEngine/dependencies/libs/STB",
-			  "%{wks.location}/NigoziEngine/dependencies/libs/ImGui",
-			  "%{wks.location}/NigoziEngine/dependencies/glew/lib" }
+				  "%{wks.location}/vendor/nfd/src/include",
+				  "%{wks.location}/NigoziEngine/vendor/spdlog/include" }
 
 	links {
 		"nfd",
@@ -63,6 +58,9 @@ project "Snake"
 		"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/sprites",
 		"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/levels"
 	}
+
+	filter "toolset:msc*"
+  		buildoptions { "/utf-8" }
 
 	filter "system:windows"
 		cppdialect "C++20"

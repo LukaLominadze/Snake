@@ -78,7 +78,7 @@ void LevelManagerScript::OnUpdate(float timestep)
 		if (m_map.empty()) {
 			UnloadCurrentLevel();
 			if (m_levels.empty()) {
-				LOG("you win!");
+				NG_CLIENT_LOG_TRACE("you win!");
 				auto& textSprite = m_wonGameTextEntity.GetComponent<Nigozi::SpriteRendererComponent>();
 				textSprite.ZOrder = 5;
 				m_won = true;
@@ -110,7 +110,7 @@ void LevelManagerScript::UnloadCurrentLevel()
 void LevelManagerScript::LoadLevel(std::filesystem::path filePath)
 {
 	if (!std::filesystem::exists(filePath)) {
-		LOG("File doesn't exist!");
+		NG_CLIENT_LOG_ERROR("File doesn't exist!");
 		return;
 	}
 
@@ -207,7 +207,7 @@ void LevelManagerScript::AddScore()
 			auto& textSprite = m_finishedLevelTextEntity.GetComponent<Nigozi::SpriteRendererComponent>();
 			textSprite.ZOrder = 5;
 		}
-		LOG("Next Level!");
+		NG_CLIENT_LOG_INFO("Next Level!");
 	}
 }
 

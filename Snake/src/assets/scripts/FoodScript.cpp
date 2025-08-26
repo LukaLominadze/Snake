@@ -18,7 +18,7 @@ FoodScript::FoodScript(Nigozi::Entity entity)
 	
 	std::uniform_int_distribution<size_t> dist(0, positions.size() - 1);
 	size_t it = dist(rd);
-	LOG("At! " << it);
+	NG_CLIENT_LOG_INFO("At! " + it);
 	transform.Position = positions.at(it);
 	transform.Scale = glm::vec2(0.5f, 0.5f);
 
@@ -40,7 +40,7 @@ void FoodScript::Teleport()
 
 	std::uniform_int_distribution<size_t> dist(0, positions.size() - 1);
 	size_t it = dist(rd);
-	LOG("At! " << it);
+	NG_CLIENT_LOG_INFO("At! " + it);
 	transform.Position = positions.at(it);
 	transform.Scale = glm::vec2(0.5f, 0.5f);
 }

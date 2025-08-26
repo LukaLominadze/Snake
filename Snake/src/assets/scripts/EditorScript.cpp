@@ -228,9 +228,9 @@ void EditorScript::OnImGuiRender()
 	}
 	ImGui::DragInt("Points To Win", (int*)&m_pointsToWin, 1, 0, 99);
 	if (ImGui::Button("Save")) {
-		LOG(m_defaultSaveDirectory.string() + m_levelName + ".yaml");
+		NG_CLIENT_LOG_INFO(m_defaultSaveDirectory.string() + m_levelName + ".yaml");
 		if (std::filesystem::path(m_defaultSaveDirectory.string() + m_levelName + ".yaml").compare(m_savePath) != 0) {
-			LOG(m_savePath << " <- Need to rename!");
+			NG_CLIENT_LOG_WARN((m_savePath.string() + " <- Need to rename!").c_str());
 			std::filesystem::rename(m_savePath, std::filesystem::path(m_defaultSaveDirectory).append(m_levelName + ".yaml"));
 			m_savePath.replace_filename(m_levelName + ".yaml");
 		}
@@ -238,7 +238,7 @@ void EditorScript::OnImGuiRender()
 	}
 	if (ImGui::Button("Save As New")) {
 		if (m_levelName + ".yaml" == m_savePath.filename().string()) {
-			LOG("rename to save as new");
+			NG_CLIENT_LOG_WARN("rename to save as new");
 			m_levelName.append("_");
 			m_savePath.replace_filename(m_levelName + ".yaml");
 		}
@@ -484,5 +484,5 @@ void EditorScript::SaveLevel()
 		fout << out.c_str();
 	}
 
-	LOG("Saved level! -> " << m_savePath.string());
+	NG_CLIENT_LOG_INFO("Saved level! -> " + m_savePath.string());
 }
