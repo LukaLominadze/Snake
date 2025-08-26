@@ -175,6 +175,10 @@ void PlayerScript::EatFood()
 			Nigozi::Entity levelManager = m_entityHandle.GetScene()->TryGetEntityByTag("LevelManager");
 			auto& levelManagerScript = levelManager.GetComponent<Nigozi::ScriptComponent>();
 			((LevelManagerScript*)(levelManagerScript.ScriptHandle.get()))->AddScore();
+
+			auto& audio = m_entityHandle.GetComponent<Nigozi::AudioStreamPlayerComponent>();
+			audio->Play();
+
 			break;
 		}
 	}

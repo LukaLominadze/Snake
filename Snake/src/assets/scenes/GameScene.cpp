@@ -12,6 +12,7 @@ GameScene::GameScene(Nigozi::SceneManager* sceneManager)
 	Nigozi::Entity player = CreateEntity("Player", "Player");
 	auto& playerSprite = player.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/snake-head.png", glm::vec2{ 0, 0 });
 	playerSprite.ZOrder = 1;
+	player.AddComponent<Nigozi::AudioStreamPlayerComponent>("src/assets/audio/eat.mp3");
 	player.AddComponent<Nigozi::ScriptComponent>(std::make_shared<PlayerScript>(player));
 
 	Nigozi::Entity food = CreateEntity("Apple", "Food");
