@@ -39,6 +39,8 @@ If you don't want to build for visual studio, you will have to run the following
 feel free to run ```NigoziEngine\vendor\bin\scripts\premake\premake5 --help``` to choose the appropriate action.
 
 Otherwise, run and build with visual studio.
+### Linux GTK
+To build with gtk, install ```apt-get libgtk-3-dev```
 ### Linux (Ubuntu LTS 24.04.02 Tested)
 To build the project, run ```setup-linux.sh``` and then run ```make```.
  Optionally, run ```make config={CONFIG} # config can be debug/release/distribution```.
