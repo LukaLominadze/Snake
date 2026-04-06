@@ -252,11 +252,12 @@ void EditorScript::OnImGuiRender()
 bool EditorScript::LoadLevel()
 {
 	std::filesystem::path levelPath;
-	YAML::Node cacheData = YAML::LoadFile("src/assets/editor/editorCache.yaml");
+	YAML::Node cacheData = YAML::LoadFile(std::filesystem::path("src/assets/editor/editorCache.yaml"));
 	if (!cacheData.IsNull()) {
 		levelPath = cacheData["CurrentLevel"].as<std::string>();
 	}
-	if (levelPath.empty() || levelPath.string() == "NONE") {
+	if (levelPath.empty() || levelPath.string() == "NONE" || !std::filesystem::exists(levelPath)) {
+		NG_CLIENT_LOG_WARN("Level path doesn't exists! {}", levelPath.string());
 		return false;
 	}
 	std::filesystem::path levelRootPath = std::filesystem::path(levelPath).remove_filename();
@@ -356,6 +357,7 @@ void EditorScript::LoadDefault()
 {
 	m_levelName = "newlevel";
 	
+	NG_CLIENT_LOG_INFO(m_defaultSaveDirectory.string());
 	for (const auto& entry : std::filesystem::directory_iterator(m_defaultSaveDirectory))
 	{
 		if (std::filesystem::path(entry).compare(std::filesystem::path(m_defaultSaveDirectory.string() + m_levelName + ".yaml")) == 0)

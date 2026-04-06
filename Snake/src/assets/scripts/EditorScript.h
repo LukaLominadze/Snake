@@ -54,7 +54,7 @@ private:
 	glm::vec2 m_tileOffset, m_playerSpawn;
 
 	std::string m_levelName;
-	std::filesystem::path m_savePath, m_defaultSaveDirectory = "src\\assets\\levels\\";
+	std::filesystem::path m_savePath, m_defaultSaveDirectory = std::filesystem::path("src/assets/levels/");
 
 	int m_width = 0, m_height = 0;
 	uint32_t m_pointsToWin;

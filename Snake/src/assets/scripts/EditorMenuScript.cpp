@@ -18,8 +18,9 @@ EditorMenuScript::EditorMenuScript(Nigozi::Entity entity)
 			}
 
 			{
-				std::ofstream fout("src/assets/editor/editorCache.yaml");
+				std::ofstream fout(std::filesystem::path("src/assets/editor/editorCache.yaml"));
 				fout << out.c_str();
+				NG_CLIENT_LOG_INFO("Updating editor cache: CurrentLevel {}", filePath.string());
 			}
 
 			m_entityHandle.GetScene()->GetSceneManager()->QueueLoadScene("Editor");
@@ -34,8 +35,9 @@ EditorMenuScript::EditorMenuScript(Nigozi::Entity entity)
 		}
 
 		{
-			std::ofstream fout("src/assets/editor/editorCache.yaml");
+			std::ofstream fout(std::filesystem::path("src/assets/editor/editorCache.yaml"));
 			fout << out.c_str();
+			NG_CLIENT_LOG_INFO("Cleared editor cache");
 		}
 
 		m_entityHandle.GetScene()->GetSceneManager()->QueueLoadScene("Editor");
