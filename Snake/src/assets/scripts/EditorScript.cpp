@@ -252,7 +252,7 @@ void EditorScript::OnImGuiRender()
 bool EditorScript::LoadLevel()
 {
 	std::filesystem::path levelPath;
-	YAML::Node cacheData = YAML::LoadFile(std::filesystem::path("src/assets/editor/editorCache.yaml"));
+	YAML::Node cacheData = YAML::LoadFile(std::filesystem::path("src/assets/editor/editorCache.yaml").string());
 	if (!cacheData.IsNull()) {
 		levelPath = cacheData["CurrentLevel"].as<std::string>();
 	}

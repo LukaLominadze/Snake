@@ -48,19 +48,6 @@ project "Snake"
 		"Distribution"
 	}
 
-	postbuildcommands {
-		"{COPYDIR} %{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi/res %{prj.location}/src/Nigozi/",
-		"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src",
-		"{COPYDIR} %{prj.location}/src/Nigozi %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/",
-		"{COPYDIR} %{prj.location}/logo-small.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
-		"{COPYDIR} %{prj.location}/logo.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
-		"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/assets",
-		"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
-		"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
-		"{COPYDIR} %{prj.location}/src/assets/editor %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
-		"{COPYDIR} %{prj.location}/src/assets/audio %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/"
-	}
-
 	filter "toolset:msc*"
   		buildoptions { "/utf-8" }
 
@@ -71,6 +58,23 @@ project "Snake"
 		defines { "NG_PLATFORM_WINDOWS" }
 		
 		links { "opengl32.lib" }
+		
+		postbuildcommands {
+			"{COPYDIR} %{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi/res %{prj.location}/src/Nigozi/res",
+			"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src",
+
+			"{COPYDIR} %{prj.location}/src/Nigozi %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/Nigozi",
+
+			"{COPYDIR} %{prj.location}/logo-small.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
+			"{COPYDIR} %{prj.location}/logo.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
+
+			"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/assets",
+
+			"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/sprites",
+			"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/levels",
+			"{COPYDIR} %{prj.location}/src/assets/editor %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/editor",
+			"{COPYDIR} %{prj.location}/src/assets/audio %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/audio"
+		}
 	
 	filter "system:linux"
 		cppdialect "C++20"
@@ -81,6 +85,23 @@ project "Snake"
 		links { "GL",
 			"pthread",
         		"dl" }
+
+		postbuildcommands {
+			"{COPYDIR} %{wks.location}/NigoziEngine/NigoziEngine/src/Nigozi/res %{prj.location}/src/Nigozi/",
+			"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src",
+
+			"{COPYDIR} %{prj.location}/src/Nigozi %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/",
+
+			"{COPYDIR} %{prj.location}/logo-small.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
+			"{COPYDIR} %{prj.location}/logo.png %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/",
+
+			"{MKDIR} %{wks.location}/bin/" .. outputdir .. "/%{prj.name}/src/assets",
+
+			"{COPYDIR} %{prj.location}/src/assets/sprites %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
+			"{COPYDIR} %{prj.location}/src/assets/levels %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
+			"{COPYDIR} %{prj.location}/src/assets/editor %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/",
+			"{COPYDIR} %{prj.location}/src/assets/audio %{wks.location}/bin/" ..outputdir.. "/%{prj.name}/src/assets/"
+		}
 	
 	filter {"system:linux", "options:linux_backend=gtk3"}
 
