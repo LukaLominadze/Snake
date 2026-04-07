@@ -17,7 +17,7 @@ workspace "Snake"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Dependencies"
-	include "vendor/nfd/build/Build-nfd-Only.lua"
+	include "NigoziEngine/vendor/nfd/build/Build-nfd-Only.lua"
 	include "NigoziEngine/vendor/glfw"
 	include "NigoziEngine/vendor/glew"
 	include "NigoziEngine/vendor/stb"

@@ -12,14 +12,14 @@ EditorScene::EditorScene(Nigozi::SceneManager* sceneManager)
 	auto& sprite = background.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/background.png", glm::vec2(0.0f, 0.0f), -2);
 	sprite.Color = glm::vec4(0.2f, 0.55f, 0.25f, 1.0f);
 	auto& transform = background.GetComponent<Nigozi::TransformComponent>();
-	transform.Scale = glm::vec2(12.0f * aspect, 12.0f);
+	transform.Scale = glm::vec2(12.0f);
 	transform.Position = glm::vec2(0.0f, -0.5f);
 
 	Nigozi::Entity backButton = CreateEntity("Back", "BackButton");
 	backButton.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/back.png", glm::vec2(0.0f));
 	backButton.AddComponent<Nigozi::ScriptComponent>(std::make_shared<ButtonScript>(backButton));
 	auto& backTransform = backButton.GetComponent<Nigozi::TransformComponent>();
-	backTransform.Scale = glm::vec2(3.0f, 1.5f);
+	backTransform.Scale = glm::vec2(1.5f);
 	backTransform.Position = glm::vec2(-aspect * 6.0f + 2.0f, 4.5f);
 
 	Nigozi::Entity wallSwatch = CreateEntity("WallSwatch", "WallSwatch");

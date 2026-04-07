@@ -1,6 +1,5 @@
 #include "EditorScript.h"
 
-#include "misc/NFDUtils.h"
 #include "yaml-cpp/yaml.h"
 
 #include "assets/scripts/ButtonScript.h"
@@ -12,7 +11,7 @@ EditorScript::EditorScript(Nigozi::Entity entity)
 		m_entityHandle.GetScene()->GetSceneManager()->QueueLoadScene("MainMenu");
 	}),
 	m_onWallSwatchPressed([this]() {
-		std::filesystem::path newWallTexturePath = NFDUtils::OpenFileDialog("png;jpg;jpeg");
+		std::filesystem::path newWallTexturePath = FileDialogue::OpenFileDialog("png;jpg;jpeg");
 		if (!newWallTexturePath.empty()) {
 			std::string path = newWallTexturePath.string();
 
@@ -32,7 +31,7 @@ EditorScript::EditorScript(Nigozi::Entity entity)
 		}
 	}),
 	m_onFloorSwatchPressed([this]() {
-	std::filesystem::path newFloorTexturePath = NFDUtils::OpenFileDialog("png;jpg;jpeg");
+	std::filesystem::path newFloorTexturePath = FileDialogue::OpenFileDialog("png;jpg;jpeg");
 		if (!newFloorTexturePath.empty()) {
 			std::string path = newFloorTexturePath.string();
 
@@ -425,7 +424,7 @@ bool EditorScript::OnWindowResizedEvent(Nigozi::WindowResizedEvent& event)
 	auto& brushSwatchTransform = m_brushSwatch.GetComponent<Nigozi::TransformComponent>();
 	auto& eraserSwatchTransform = m_eraserSwatch.GetComponent<Nigozi::TransformComponent>();
 	auto& playerSwatchTransform = m_playerSwatch.GetComponent<Nigozi::TransformComponent>();
-	backgroundTransform.Scale = glm::vec2(-aspect * 12.0f, 12.0f);
+	backgroundTransform.Scale = glm::vec2(12.0f);
 	backButtonTransform.Position = glm::vec2(-aspect * 6.0f + 2.0f, 4.5f);
 	wallTransform.Position = glm::vec2(-aspect * 6.0f + 1.0f, 3.0f);
 	floorTransform.Position = glm::vec2(-aspect * 6.0f + 1.0f, 1.5f);

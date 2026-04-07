@@ -11,14 +11,14 @@ MainMenuScene::MainMenuScene(Nigozi::SceneManager* sceneManager)
 	playButton.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/play-button.png", glm::vec2{ 0.0f, 0.0f });
 	playButton.AddComponent<Nigozi::ScriptComponent>(std::make_shared<ButtonScript>(playButton));
 	auto& playTransform = playButton.GetComponent<Nigozi::TransformComponent>();
-	playTransform.Scale = glm::vec2(12.0f, 6.0f);
+	playTransform.Scale = glm::vec2(6.0f);
 	playTransform.Position = glm::vec2(0.0f, 2.5f);
 
 	Nigozi::Entity editorButton = CreateEntity("Editor", "EditorButton");
 	editorButton.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/editor.png", glm::vec2(0.0f));
 	editorButton.AddComponent<Nigozi::ScriptComponent>(std::make_shared<ButtonScript>(editorButton));
 	auto& editorTransform = editorButton.GetComponent<Nigozi::TransformComponent>();
-	editorTransform.Scale = glm::vec2(12.0f, 5.0f);
+	editorTransform.Scale = glm::vec2(5.0f);
 	editorTransform.Position = glm::vec2(0.0f, -3.5f);
 
 	Nigozi::Entity mainMenu = CreateEntity("Main", "MainMenuManager");

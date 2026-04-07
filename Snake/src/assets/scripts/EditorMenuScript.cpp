@@ -1,6 +1,5 @@
 #include "EditorMenuScript.h"
 
-#include "misc/NFDUtils.h"
 #include "yaml-cpp/yaml.h"
 
 #include "ButtonScript.h"
@@ -8,7 +7,7 @@
 EditorMenuScript::EditorMenuScript(Nigozi::Entity entity)
 	:Script(entity),
 	m_onLoadPressed([this]() {
-		std::filesystem::path filePath = NFDUtils::OpenFileDialog("yaml");
+		std::filesystem::path filePath = FileDialogue::OpenFileDialog("yaml");
 		if (!filePath.empty()) {
 			YAML::Emitter out;
 			{

@@ -29,7 +29,7 @@ project "Snake"
 				  "%{wks.location}/NigoziEngine/vendor/imgui",
 				  "%{wks.location}/NigoziEngine/vendor/glm",
 				  "%{wks.location}/vendor/yaml/include",
-				  "%{wks.location}/vendor/nfd/src/include",
+				  "%{wks.location}/NigoziEngine/vendor/nfd/src/include",
 				  "%{wks.location}/NigoziEngine/vendor/spdlog/include" }
 
 	links {

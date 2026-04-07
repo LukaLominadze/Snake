@@ -31,12 +31,12 @@ LevelManagerScript::LevelManagerScript(Nigozi::Entity entity)
 	m_finishedLevelTextEntity = m_entityHandle.GetScene()->CreateEntity("LevelCompleted", "Text");
 	m_finishedLevelTextEntity.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/level-completed.png", glm::vec2(0.0f), -3);
 	auto& levelFinishTransform = m_finishedLevelTextEntity.GetComponent<Nigozi::TransformComponent>();
-	levelFinishTransform.Scale = glm::vec2(8.0f, 1.0f);
+	levelFinishTransform.Scale = glm::vec2(1.0f);
 	
 	m_wonGameTextEntity = m_entityHandle.GetScene()->CreateEntity("YouWon", "Text");
 	m_wonGameTextEntity.AddComponent<Nigozi::SpriteRendererComponent>("src/assets/sprites/you-won.png", glm::vec2(0.0f), -3);
 	auto& wonGameTransform = m_wonGameTextEntity.GetComponent<Nigozi::TransformComponent>();
-	wonGameTransform.Scale = glm::vec2(8.0f, 2.0f);
+	wonGameTransform.Scale = glm::vec2(2.0f);
 
 	for (const auto& entry : std::filesystem::directory_iterator("src/assets/levels")) {
 		m_levels.insert(m_levels.begin(), entry);

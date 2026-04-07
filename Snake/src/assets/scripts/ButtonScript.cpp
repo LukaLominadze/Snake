@@ -55,8 +55,10 @@ bool ButtonScript::OnMouseButtonPressedEvent(Nigozi::MouseButtonPressedEvent& ev
     if (event.GetButton() == GLFW_MOUSE_BUTTON_1) {
         glm::vec2 cameraPosition = SnakeLayer::GetMainCamera().GetMousePositionWorldSpace();
         auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
-        if (cameraPosition.x > (transform.Position.x - transform.Scale.x / 2.0f) &&
-            cameraPosition.x < (transform.Position.x + transform.Scale.x / 2.0f) &&
+        auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
+        float aspect = sprite.Sprite->GetSize().x / sprite.Sprite->GetSize().y;
+        if (cameraPosition.x > (transform.Position.x - transform.Scale.x * aspect / 2.0f) &&
+            cameraPosition.x < (transform.Position.x + transform.Scale.x * aspect / 2.0f) &&
             cameraPosition.y > (transform.Position.y - transform.Scale.y / 2.0f) &&
             cameraPosition.y < (transform.Position.y + transform.Scale.y / 2.0f)) 
         {
@@ -77,8 +79,10 @@ bool ButtonScript::OnMouseButtonReleasedEvent(Nigozi::MouseButtonReleasedEvent& 
         m_isPressing = false;
         glm::vec2 cameraPosition = SnakeLayer::GetMainCamera().GetMousePositionWorldSpace();
         auto& transform = m_entityHandle.GetComponent<Nigozi::TransformComponent>();
-        if (cameraPosition.x > (transform.Position.x - transform.Scale.x / 2.0f) &&
-            cameraPosition.x < (transform.Position.x + transform.Scale.x / 2.0f) &&
+        auto& sprite = m_entityHandle.GetComponent<Nigozi::SpriteRendererComponent>();
+        float aspect = sprite.Sprite->GetSize().x / sprite.Sprite->GetSize().y;
+        if (cameraPosition.x > (transform.Position.x - transform.Scale.x * aspect / 2.0f) &&
+            cameraPosition.x < (transform.Position.x + transform.Scale.x * aspect / 2.0f) &&
             cameraPosition.y > (transform.Position.y - transform.Scale.y / 2.0f) &&
             cameraPosition.y < (transform.Position.y + transform.Scale.y / 2.0f))
         {

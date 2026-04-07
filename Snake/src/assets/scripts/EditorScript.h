@@ -3,8 +3,6 @@
 #include <Nigozi.h>
 
 #include "misc/Observer.h"
-#include "misc/NFDUtils.h"
-#include "misc/StringUtils.h"
 
 enum class Tool {
 	ERASER = 0,
